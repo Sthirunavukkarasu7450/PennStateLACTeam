@@ -1,0 +1,179 @@
+{
+	"props": [
+		{
+		    "name": "Earth",
+		    "path": "/Game/Carla/Static/Sky/Earth.Earth",
+		    "size": "Huge"
+		},
+		{
+		    "name": "SM_Rock_01_XL",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_01_XL.SM_Rock_01_XL",
+		    "size": "Big"
+		},
+		{
+		    "name": "SM_Rock_02_XL",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_02_XL.SM_Rock_02_XL",
+		    "size": "Big"
+		},
+		{
+		    "name": "SM_Rock_03_XL",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_03_XL.SM_Rock_03_XL",
+		    "size": "Big"
+		},
+		{
+		    "name": "SM_Rock_04_XL",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_04_XL.SM_Rock_04_XL",
+		    "size": "Big"
+		},
+		{
+		    "name": "SM_Rock_05_XL",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_05_XL.SM_Rock_05_XL",
+		    "size": "Big"
+		},
+		{
+		    "name": "SM_Rock_06_XL",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_06_XL.SM_Rock_06_XL",
+		    "size": "Big"
+		},
+		{
+		    "name": "SM_Rock_01_L",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_01_L.SM_Rock_01_L",
+		    "size": "Big"
+		},
+		{
+		    "name": "SM_Rock_02_L",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_02_L.SM_Rock_02_L",
+		    "size": "Big"
+		},
+		{
+		    "name": "SM_Rock_03_L",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_03_L.SM_Rock_03_L",
+		    "size": "Big"
+		},
+		{
+		    "name": "SM_Rock_04_L",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_04_L.SM_Rock_04_L",
+		    "size": "Big"
+		},
+		{
+		    "name": "SM_Rock_05_L",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_05_L.SM_Rock_05_L",
+		    "size": "Big"
+		},
+		{
+		    "name": "SM_Rock_06_L",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_06_L.SM_Rock_06_L",
+		    "size": "Big"
+		},
+		{
+		    "name": "SM_Rock_07_L",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_07_L.SM_Rock_07_L",
+		    "size": "Big"
+		},
+		{
+		    "name": "SM_Rock_01_M",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_01_M.SM_Rock_01_M",
+		    "size": "Medium"
+		},
+		{
+		    "name": "SM_Rock_02_M",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_02_M.SM_Rock_02_M",
+		    "size": "Medium"
+		},
+		{
+		    "name": "SM_Rock_03_M",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_03_M.SM_Rock_03_M",
+		    "size": "Medium"
+		},
+		{
+		    "name": "SM_Rock_04_M",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_04_M.SM_Rock_04_M",
+		    "size": "Medium"
+		},
+		{
+		    "name": "SM_Rock_05_M",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_05_M.SM_Rock_05_M",
+		    "size": "Medium"
+		},
+		{
+		    "name": "SM_Rock_06_M",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_06_M.SM_Rock_06_M",
+		    "size": "Medium"
+		},
+		{
+		    "name": "SM_Rock_07_M",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_07_M.SM_Rock_07_M",
+		    "size": "Medium"
+		},
+		{
+		    "name": "SM_Rock_01_S",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_01_S.SM_Rock_01_S",
+		    "size": "Small"
+		},
+		{
+		    "name": "SM_Rock_02_S",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_02_S.SM_Rock_02_S",
+		    "size": "Small"
+		},
+		{
+		    "name": "SM_Rock_03_S",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_03_S.SM_Rock_03_S",
+		    "size": "Small"
+		},
+		{
+		    "name": "SM_Rock_04_S",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_04_S.SM_Rock_04_S",
+		    "size": "Small"
+		},
+		{
+		    "name": "SM_Rock_05_S",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_05_S.SM_Rock_05_S",
+		    "size": "Small"
+		},
+		{
+		    "name": "SM_Rock_06_S",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_06_S.SM_Rock_06_S",
+		    "size": "Small"
+		},
+		{
+		    "name": "SM_Rock_07_S",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_07_S.SM_Rock_07_S",
+		    "size": "Small"
+		},
+		{
+		    "name": "SM_Rock_07_XS",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_07_XS.SM_Rock_07_XS",
+		    "size": "Small"
+		},
+		{
+		    "name": "SM_Rock_08_XS",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_08_XS.SM_Rock_08_XS",
+		    "size": "Small"
+		},
+		{
+		    "name": "SM_Rock_09_XS",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_09_XS.SM_Rock_09_XS",
+		    "size": "Small"
+		},
+		{
+		    "name": "SM_Rock_10_XS",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_10_XS.SM_Rock_10_XS",
+		    "size": "Small"
+		},
+		{
+		    "name": "SM_Rock_11_XS",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_11_XS.SM_Rock_11_XS",
+		    "size": "Small"
+		},
+		{
+		    "name": "SM_Rock_12_XS",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_12_XS.SM_Rock_12_XS",
+		    "size": "Small"
+		},
+		{
+		    "name": "SM_Rock_13_XS",
+		    "path": "/Game/Carla/Static/Rock/SM_Rock_13_XS.SM_Rock_13_XS",
+		    "size": "Small"
+		}
+	]
+}

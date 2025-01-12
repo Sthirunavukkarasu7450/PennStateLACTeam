@@ -1,0 +1,184 @@
+{
+    "objects": [
+        {
+            "name": "SM_Lander_Fiducials",
+            "path": "../lander/SM_Lander_Fiducials",
+            "is_a_lander": true
+        },
+        {
+            "name": "SM_Lander_NoFiducials",
+            "path": "../lander/SM_Lander_NoFiducials",
+            "is_a_lander": true
+        },
+        {
+            "name": "SM_Rock_01_S",
+            "path": "/rocks/SM_Rock_01_S.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_01_M",
+            "path": "/rocks/SM_Rock_01_M.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_01_L",
+            "path": "/rocks/SM_Rock_01_L.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_01_XL",
+            "path": "/rocks/SM_Rock_01_XL.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_02_S",
+            "path": "/rocks/SM_Rock_02_S.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_02_M",
+            "path": "/rocks/SM_Rock_02_M.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_02_L",
+            "path": "/rocks/SM_Rock_02_L.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_02_XL",
+            "path": "/rocks/SM_Rock_02_XL.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_03_S",
+            "path": "/rocks/SM_Rock_03_S.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_03_M",
+            "path": "/rocks/SM_Rock_03_M.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_03_L",
+            "path": "/rocks/SM_Rock_03_L.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_03_XL",
+            "path": "/rocks/SM_Rock_03_XL.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_04_S",
+            "path": "/rocks/SM_Rock_04_S.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_04_M",
+            "path": "/rocks/SM_Rock_04_M.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_04_L",
+            "path": "/rocks/SM_Rock_04_L.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_04_XL",
+            "path": "/rocks/SM_Rock_04_XL.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_05_S",
+            "path": "/rocks/SM_Rock_05_S.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_05_M",
+            "path": "/rocks/SM_Rock_05_M.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_05_L",
+            "path": "/rocks/SM_Rock_05_L.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_05_XL",
+            "path": "/rocks/SM_Rock_05_XL.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_06_S",
+            "path": "/rocks/SM_Rock_06_S.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_06_M",
+            "path": "/rocks/SM_Rock_06_M.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_06_L",
+            "path": "/rocks/SM_Rock_06_L.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_06_XL",
+            "path": "/rocks/SM_Rock_06_XL.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_07_S",
+            "path": "/rocks/SM_Rock_07_S.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_07_M",
+            "path": "/rocks/SM_Rock_07_M.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_07_L",
+            "path": "/rocks/SM_Rock_07_L.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_07_XL",
+            "path": "/rocks/SM_Rock_07_XL.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_08_XS",
+            "path": "/rocks/SM_Rock_08_XS.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_09_XS",
+            "path": "/rocks/SM_Rock_09_XS.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_10_XS",
+            "path": "/rocks/SM_Rock_10_XS.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_11_XS",
+            "path": "/rocks/SM_Rock_11_XS.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_12_XS",
+            "path": "/rocks/SM_Rock_12_XS.obj",
+            "is_a_lander": false
+        },
+        {
+            "name": "SM_Rock_13_XS",
+            "path": "/rocks/SM_Rock_13_XS.obj",
+            "is_a_lander": false
+        }
+    ]
+}
