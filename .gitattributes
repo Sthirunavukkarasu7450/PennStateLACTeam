@@ -2,3 +2,5 @@
 .obj filter=lfs diff=lfs merge=lfs -text
 *.obj filter=lfs diff=lfs merge=lfs -text
 *.uexp filter=lfs diff=lfs merge=lfs -text
+LAC-Linux-Shipping filter=lfs diff=lfs merge=lfs -text
+*.debug filter=lfs diff=lfs merge=lfs -text
