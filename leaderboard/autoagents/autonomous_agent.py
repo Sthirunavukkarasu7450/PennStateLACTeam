@@ -99,7 +99,7 @@ class AutonomousAgent(object):
 
     def use_fiducials(self):
         """Returns whether or not the lander fiducials will be used"""
-        return True
+        return False
 
     def sensors(self):
         """
