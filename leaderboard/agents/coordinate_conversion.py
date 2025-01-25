@@ -44,32 +44,32 @@ class Transform(object):
     def __str__(self):
         return f"Transform({self.location}, {self.rotation})"
 
-def toLHCSvector(vector):
+def toLHCSvector(vector) -> carla.Vector3D:
     return carla.Vector3D(vector.x, -vector.y, vector.z)
 
-def toLHCSlocation(location):
+def toLHCSlocation(location) -> carla.Location:
     return carla.Location(location.x, -location.y, location.z)
 
-def toLHCSrotation(rotation):
+def toLHCSrotation(rotation) -> carla.Rotation:
     return carla.Rotation(roll=degrees(rotation.roll), pitch=-degrees(rotation.pitch), yaw=-degrees(rotation.yaw))
 
-def toLHCStransform(transform):
+def toLHCStransform(transform) -> carla.Transform:
     return carla.Transform(toLHCSlocation(transform.location), toLHCSrotation(transform.rotation))
 
-def toRHCSvector(vector):
+def toRHCSvector(vector) -> Vector:
     return Vector(vector)
 
-def toRHCSlocation(location):
+def toRHCSlocation(location) -> Location:
     return Location(location)
 
-def toRHCSrotation(rotation):
+def toRHCSrotation(rotation) -> Rotation:
     return Rotation(rotation)
 
-def toRHCStransform(transform):
+def toRHCStransform(transform) -> Transform:
     return Transform(transform)
 
 
-def get_lander_transform(rover_transform, lander_transform):
+def get_lander_transform(rover_transform, lander_transform) -> Transform:
     """Gets the transform of the lander with respect to the rover"""
 
     # Use the CARLA API to get the location

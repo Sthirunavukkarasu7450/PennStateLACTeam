@@ -6,9 +6,17 @@
 """
 This module provides the base class for all autonomous agents
 """
+from array import array
+from typing import Any
 
 import carla
-from leaderboard.agents.agent_utilities import AgentComponentsControl
+import numpy as np
+from numpy import float64
+from numpy._typing import _64Bit
+
+from leaderboard.agents.agent_utilities import AgentComponentsControl, VehicleStatus
+from leaderboard.agents.coordinate_conversion import Transform
+from leaderboard.agents.geometric_map import GeometricMap
 from leaderboard.utils.timer import GameTime
 
 MAX_LINEAR_SPEED = 0.49         # m/s
@@ -24,18 +32,19 @@ class AutonomousAgent(object):
     #                     Base functions, do not override them                    #
     ###############################################################################
     def __init__(self):
-        self._components_control = None
-        self._vehicle_status = None
-        self._finished = False
+        self._imu_data: np.ndarray[Any, np.dtype[np.floating[_64Bit]]]  = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0], dtype=float64)
+        self._components_control: AgentComponentsControl | None = None
+        self._vehicle_status: VehicleStatus | None = None
+        self._finished: bool = False
 
-        self._geometric_map = None
-        self._initial_position = None
-        self._initial_lander_position = None
-        self._mission_time = 0
+        self._geometric_map: GeometricMap | None = None
+        self._initial_position: Transform | None = None
+        self._initial_lander_position: Transform | None = None
+        self._mission_time: float = 0
 
-    def __call__(self, mission_time, vehicle_status, input_data):
+    def __call__(self, mission_time: float, vehicle_status: VehicleStatus, input_data: any):
         """
-        Execute the agent call, e.g. agent()
+        Execute the agent call, e.g. agent(
         Returns the next vehicle controls
         """
         self._mission_time = mission_time
@@ -64,19 +73,19 @@ class AutonomousAgent(object):
 
         return velocity_control2, self._components_control
 
-    def set_geometric_map(self, geometric_map):
+    def set_geometric_map(self, geometric_map: GeometricMap):
         """Saves the geomtric map"""
         self._geometric_map = geometric_map
 
-    def set_initial_position(self, position):
+    def set_initial_position(self, position: Transform):
         """Saves the agent's initial position for an easier transformation to CARLA coordinates"""
         self._initial_position = position
 
-    def set_initial_lander_position(self, position):
+    def set_initial_lander_position(self, position: Transform):
         """Saves the lander's initial position with respect to the rover"""
         self._initial_lander_position = position
 
-    def set_imu_data(self, imu_data):
+    def set_imu_data(self, imu_data: np.ndarray[Any, np.dtype[np.floating[_64Bit]]]):
         """Saves the IMU data of the current frame"""
         self._imu_data = imu_data
 
@@ -84,7 +93,7 @@ class AutonomousAgent(object):
         """Returns whether or not the agent has finished"""
         return self._finished
 
-    def get_map_array(self):
+    def get_map_array(self) -> np.ndarray[Any, np.dtype[np.floating[_64Bit]]]:
         """Returns the map array calculated by the agent"""
         if self._geometric_map is None:
             return None
@@ -97,7 +106,7 @@ class AutonomousAgent(object):
         """Initialize everything needed by your agent"""
         pass
 
-    def use_fiducials(self):
+    def use_fiducials(self) -> bool:
         """Returns whether or not the lander fiducials will be used"""
         return False
 
@@ -141,27 +150,28 @@ class AutonomousAgent(object):
 
         return sensors
 
-    def run_step(self, input_data):
+    def run_step(self, input_data: dict[str, dict[carla.SensorPosition, np.ndarray | None]]) -> carla.VehicleVelocityControl:
+
         """
-        Execute one step of navigation.
+            Execute one step of navigation.
 
-        input_data is a dictionary that contains the sensors data:
-        - Active sensors will have their data represented as a numpy array
-        - Active sensors without any data in this tick will instead contain 'None'
-        - Inactive sensors will not be present in the dictionary.
+            input_data is a dictionary that contains the sensors data:
+            - Active sensors will have their data represented as a numpy array
+            - Active sensors without any data in this tick will instead contain 'None'
+            - Inactive sensors will not be present in the dictionary.
 
-        Example:
+            Example:
 
-        input_data = {
-            'Grayscale': {
-                carla.SensorPosition.FrontLeft:  np.array(...),
-                carla.SensorPosition.FrontRight:  np.array(...),
-            },
-            'Semantic':{
-                carla.SensorPosition.FrontLeft:  np.array(...),
+            input_data = {
+                'Grayscale': {
+                    carla.SensorPosition.FrontLeft:  np.array(...),
+                    carla.SensorPosition.FrontRight:  np.array(...),
+                },
+                'Semantic':{
+                    carla.SensorPosition.FrontLeft:  np.array(...),
+                }
             }
-        }
-        """
+            """
 
         return carla.VehicleVelocityControl()
 
