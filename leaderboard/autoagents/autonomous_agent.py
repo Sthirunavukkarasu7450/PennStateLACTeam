@@ -12,7 +12,6 @@ from typing import Any
 import carla
 import numpy as np
 from numpy import float64
-from numpy._typing import _64Bit
 
 from leaderboard.agents.agent_utilities import AgentComponentsControl, VehicleStatus
 from leaderboard.agents.coordinate_conversion import Transform
@@ -32,7 +31,7 @@ class AutonomousAgent(object):
     #                     Base functions, do not override them                    #
     ###############################################################################
     def __init__(self):
-        self._imu_data: np.ndarray[Any, np.dtype[np.floating[_64Bit]]]  = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0], dtype=float64)
+        self._imu_data: np.ndarray = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0], dtype=float64)
         self._components_control: AgentComponentsControl | None = None
         self._vehicle_status: VehicleStatus | None = None
         self._finished: bool = False
@@ -85,7 +84,7 @@ class AutonomousAgent(object):
         """Saves the lander's initial position with respect to the rover"""
         self._initial_lander_position = position
 
-    def set_imu_data(self, imu_data: np.ndarray[Any, np.dtype[np.floating[_64Bit]]]):
+    def set_imu_data(self, imu_data: np.ndarray):
         """Saves the IMU data of the current frame"""
         self._imu_data = imu_data
 
@@ -93,7 +92,7 @@ class AutonomousAgent(object):
         """Returns whether or not the agent has finished"""
         return self._finished
 
-    def get_map_array(self) -> np.ndarray[Any, np.dtype[np.floating[_64Bit]]]:
+    def get_map_array(self) -> np.ndarray:
         """Returns the map array calculated by the agent"""
         if self._geometric_map is None:
             return None
