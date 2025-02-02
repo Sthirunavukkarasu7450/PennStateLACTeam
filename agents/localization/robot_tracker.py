@@ -1,11 +1,9 @@
-from typing import Any
-
 import numpy as np
 from carla.libcarla import Transform
 from pyquaternion import Quaternion
 
-from leaderboard.geometry.pose import Pose
-from leaderboard.geometry.translation import PTranslation
+from agents.geometry.pose import Pose
+from agents.geometry.translation import PTranslation
 
 history_time = 1
 
@@ -60,6 +58,7 @@ class PoseEstimator:
         # Update last timestamp
         self.last_timestamp = timestamp
 
-        # TODO: Implement history pruning
-
-
+        pose_history_entry = TimestampedPose(timestamp, self.current_pose)
+        self.pose_history.append(pose_history_entry)
+        if (self.pose_history[-1].timestamp - self.pose_history[0].timestamp) > history_time:
+            self.pose_history.pop(0)

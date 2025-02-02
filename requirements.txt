@@ -6,3 +6,4 @@ lunarsky==0.2.1
 pygame==2.5.2
 carla~=0.9.15
 pyquaternion~=0.9.9
+opencv-python~=4.11.0.86

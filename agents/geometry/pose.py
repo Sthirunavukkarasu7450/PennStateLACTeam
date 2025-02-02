@@ -2,7 +2,7 @@ from copy import copy
 
 from pyquaternion import Quaternion
 
-from leaderboard.geometry.translation import PTranslation
+from agents.geometry.translation import PTranslation
 
 from typing import Self
 

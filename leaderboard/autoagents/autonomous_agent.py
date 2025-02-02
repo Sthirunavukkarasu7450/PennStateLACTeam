@@ -6,8 +6,6 @@
 """
 This module provides the base class for all autonomous agents
 """
-from array import array
-from typing import Any
 
 import carla
 import numpy as np
@@ -40,6 +38,7 @@ class AutonomousAgent(object):
         self._initial_position: Transform | None = None
         self._initial_lander_position: Transform | None = None
         self._mission_time: float = 0
+        self.pose_estimator = None
 
     def __call__(self, mission_time: float, vehicle_status: VehicleStatus, input_data: any):
         """
@@ -150,7 +149,6 @@ class AutonomousAgent(object):
         return sensors
 
     def run_step(self, input_data: dict[str, dict[carla.SensorPosition, np.ndarray | None]]) -> carla.VehicleVelocityControl:
-
         """
             Execute one step of navigation.
 
@@ -171,7 +169,6 @@ class AutonomousAgent(object):
                 }
             }
             """
-
         return carla.VehicleVelocityControl()
 
     def finalize(self):
