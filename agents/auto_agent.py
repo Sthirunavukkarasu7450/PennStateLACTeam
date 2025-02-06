@@ -14,8 +14,13 @@ def get_entry_point():
 
 class AutoAgent(AutonomousAgent):
     def setup(self, path_to_conf_file):
-        listener = keyboard.Listener(on_press=self.on_press, on_release=self.on_release)
-        listener.start()
+        #dont need listeners since code should be autonomous
+        #listener = keyboard.Listener(on_press=self.on_press, on_release=self.on_release)
+        #listener.start()
+
+        #time step inint
+
+        self.time_step = 0
 
         """ Add some attributes to store values for the target linear and angular velocity. """
 
@@ -33,8 +38,9 @@ class AutoAgent(AutonomousAgent):
         self.stereo.setNumDisparities(256)
         self.stereo.setMinDisparity(0)
 
-
-
+    #no fudicials to maximize points 
+    def use_fiducials(self):
+        return False
 
 
     def sensors(self):
@@ -75,7 +81,7 @@ class AutoAgent(AutonomousAgent):
     def run_step(self, input_data):
         self.frame += 1
 
-        if (self.frame == 0):
+        if (self.frame == 0 and self.time_step == 0):
             print("Moving drums up")
             self.set_camera_state(carla.SensorPosition.FrontLeft, False)
             self.set_camera_state(carla.SensorPosition.FrontRight, False)
@@ -87,7 +93,7 @@ class AutoAgent(AutonomousAgent):
             self.set_camera_state(carla.SensorPosition.FrontLeft, True)
             self.set_camera_state(carla.SensorPosition.FrontRight, True)
         if (self.frame <= 25):
-            return carla.VehicleVelocityControl()
+            return carla.VehicleVelocityControl(0,0)
 
 
 
@@ -117,6 +123,16 @@ class AutoAgent(AutonomousAgent):
     def finalize(self):
         cv.destroyAllWindows()
 
+        """
+        Cleanup
+        """
+        if hasattr(self, '_hic') and not self._has_quit:
+            self._hic.set_black_screen()
+            self._hic.quit()
+            self._has_quit = True
+
+    #code belwo is for the listner which arent being used since rover autonomous 
+    '''
     def on_press(self, key):
 
         """ This is the callback executed when a key is pressed. If the key pressed is either the up or down arrow, this method will add
@@ -151,3 +167,4 @@ class AutoAgent(AutonomousAgent):
         if key == keyboard.Key.esc:
             self.mission_complete()
             cv.destroyAllWindows()
+    '''
