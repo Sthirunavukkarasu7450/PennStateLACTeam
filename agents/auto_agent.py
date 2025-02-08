@@ -79,7 +79,6 @@ class AutoAgent(AutonomousAgent):
         return sensors
 
     def run_step(self, input_data):
-        self.frame += 1
 
         if (self.frame == 0 and self.time_step == 0):
             print("Moving drums up")
@@ -117,7 +116,33 @@ class AutoAgent(AutonomousAgent):
         disp = cv.normalize(disp, 0, 255, cv.NORM_MINMAX)
         cv.imshow("Disparity Map", disp)
         cv.waitKey(1)
+
+        #iterate through the frames and time steps
+        self.frame += 1
+        self.time_step += 1
+
+
         return carla.VehicleVelocityControl()
+    
+    def return_to_module(self):
+        if (self.time_step == 0):
+            # find location of lunar module and travel to it 
+            #probably done by flipping through camera until found 
+            # utilize init position
+            init_rover_pos = self.get_initial_position()
+                # we need to determine out angle from the module 
+
+            # rotate rover certain degrees
+            # move foward towards lunar rover 
+            return carla.VehicleVelocityControl()
+        else:
+            # find location of lunar module and travel to it
+            # no init position therefore must use predicted location 
+            # rotate rover certain degrees
+            # move foward towards lunar rover
+            return carla.VehicleVelocityControl()
+        
+        
 
 
     def finalize(self):
