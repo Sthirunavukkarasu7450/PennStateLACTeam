@@ -91,10 +91,8 @@ class AutoAgent(AutonomousAgent):
             print("Starting to run")
             self.set_camera_state(carla.SensorPosition.FrontLeft, True)
             self.set_camera_state(carla.SensorPosition.FrontRight, True)
-        if (self.frame <= 25):
-            return carla.VehicleVelocityControl(0,0)
 
-
+        control = carla.VehicleVelocityControl(0.2,0)
 
 
         imgL = input_data["Grayscale"][carla.SensorPosition.FrontLeft]
@@ -122,7 +120,7 @@ class AutoAgent(AutonomousAgent):
         self.time_step += 1
 
 
-        return carla.VehicleVelocityControl()
+        return control
     
     def return_to_module(self):
         if (self.time_step == 0):
@@ -155,6 +153,8 @@ class AutoAgent(AutonomousAgent):
             self._hic.set_black_screen()
             self._hic.quit()
             self._has_quit = True
+
+        
 
     #code belwo is for the listner which arent being used since rover autonomous 
     '''
