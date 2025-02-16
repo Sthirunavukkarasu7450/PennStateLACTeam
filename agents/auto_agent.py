@@ -53,8 +53,9 @@ class AutoAgent(HumanAgent, AutonomousAgent):
         self.bf = cv.BFMatcher(cv.NORM_HAMMING, crossCheck=True)
         self.pose_estimator = PoseEstimator(initial_pose=Pose.from_carla(self.get_initial_position()))
 
-
-
+    #no fudicials to maximize points
+    def use_fiducials(self):
+        return False
 
 
     def sensors(self):
@@ -93,9 +94,8 @@ class AutoAgent(HumanAgent, AutonomousAgent):
         return sensors
 
     def run_step(self, input_data):
-        self.frame += 1
 
-        if (self.frame == 0):
+        if (self.frame == 0 and self.time_step == 0):
             print("Moving drums up")
             self.set_camera_state(carla.SensorPosition.FrontLeft, False)
             self.set_camera_state(carla.SensorPosition.FrontRight, False)
@@ -114,6 +114,7 @@ class AutoAgent(HumanAgent, AutonomousAgent):
         #
         # if (img_l is None or img_r is None):
         #     return carla.VehicleVelocityControl()
+        control = carla.VehicleVelocityControl(0.2, 0)
 
         # cv.imshow("Left Camera", img_l)
         # cv.imshow("Right Camera", img_r)
@@ -142,9 +143,42 @@ class AutoAgent(HumanAgent, AutonomousAgent):
         # self.prev_keypoints = keypoints
         # self.prev_descriptors = descriptors
         # cv.waitKey(1)
-        return super().run_step(input_data)
+
+        #iterate through the frames and time steps
+        self.frame += 1
+        self.time_step += 1
+
+
+        return control
+
+    def return_to_module(self):
+        if (self.time_step == 0):
+            # find location of lunar module and travel to it
+            #probably done by flipping through camera until found
+            # utilize init position
+            init_rover_pos = self.get_initial_position()
+                # we need to determine out angle from the module
+
+            # rotate rover certain degrees
+            # move foward towards lunar rover
+            return carla.VehicleVelocityControl()
+        else:
+            # find location of lunar module and travel to it
+            # no init position therefore must use predicted location
+            # rotate rover certain degrees
+            # move foward towards lunar rover
+            return super().run_step(input_data)
+
 
 
     def finalize(self):
         super().finalize()
         cv.destroyAllWindows()
+
+        """
+        Cleanup
+        """
+        if hasattr(self, '_hic') and not self._has_quit:
+            self._hic.set_black_screen()
+            self._hic.quit()
+            self._has_quit = True
