@@ -430,7 +430,6 @@ class HumanAgent(AutonomousAgent):
 
     def run_step(self, input_data):
         """Execute one step of navigation"""
-        self._clock.tick_busy_loop(20)
 
         quit_, control, active_camera = self._controller.parse_events(self._delta_seconds)
         if quit_:

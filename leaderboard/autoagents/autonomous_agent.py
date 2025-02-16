@@ -38,7 +38,6 @@ class AutonomousAgent(object):
         self._initial_position: Transform | None = None
         self._initial_lander_position: Transform | None = None
         self._mission_time: float = 0
-        self.pose_estimator = None
 
     def __call__(self, mission_time: float, vehicle_status: VehicleStatus, input_data: any):
         """
@@ -106,7 +105,7 @@ class AutonomousAgent(object):
 
     def use_fiducials(self) -> bool:
         """Returns whether or not the lander fiducials will be used"""
-        return False
+        return True
 
     def sensors(self):
         """

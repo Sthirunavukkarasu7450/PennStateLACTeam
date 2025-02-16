@@ -4,34 +4,54 @@ import math
 import carla
 import cv2 as cv
 import numpy as np
-from pynput import keyboard
 
+from geometry.pose import Pose
+from leaderboard.autoagents.human_agent import HumanAgent
+from localization.robot_tracker import PoseEstimator
 from leaderboard.autoagents.autonomous_agent import AutonomousAgent
+
 
 def get_entry_point():
     return 'AutoAgent'
 
 
-class AutoAgent(AutonomousAgent):
+cameras = [carla.SensorPosition.Front, carla.SensorPosition.FrontLeft, carla.SensorPosition.FrontRight,
+            carla.SensorPosition.Left, carla.SensorPosition.Right, carla.SensorPosition.BackLeft,
+            carla.SensorPosition.BackRight, carla.SensorPosition.Back]
+
+class AutoAgent(HumanAgent, AutonomousAgent):
+    def __init__(self):
+        super().__init__()
+        self.pose_estimator: PoseEstimator = None
+        self.prev_keypoints = None
+        self.prev_descriptors = None
+        self.orb = None
+        self.bf = None
+
+    def use_fiducials(self):
+        return True
+
     def setup(self, path_to_conf_file):
-        listener = keyboard.Listener(on_press=self.on_press, on_release=self.on_release)
-        listener.start()
-
-        """ Add some attributes to store values for the target linear and angular velocity. """
-
-        self.current_v = 0
-        self.current_w = 0
+        super().setup(path_to_conf_file)
 
         """ Initialize a counter to keep track of the number of simulation steps. """
 
         self.frame = -1
         print("Setup AutoAgent")
 
-        # Creating an object of StereoSGBM algorithm
-        self.stereo = cv.StereoBM.create(numDisparities=256, blockSize=15)
-        self.stereo.setMinDisparity(0)
-        self.stereo.setNumDisparities(256)
-        self.stereo.setMinDisparity(0)
+        # self.stereo = cv.StereoBM.create(numDisparities=320, blockSize=15)
+        # self.stereo.setMinDisparity(0)
+        # self.stereo.setNumDisparities(320)
+        # # self.stereo.setMinDisparity(64)
+        # self.stereo.setUniquenessRatio(10)
+        # self.stereo.setDisp12MaxDiff(0)
+        # self.stereo.setSpeckleWindowSize(50)
+        # self.stereo.setSpeckleRange(1)
+        # self.stereo.setTextureThreshold(40)
+
+        self.orb = cv.ORB()
+        self.bf = cv.BFMatcher(cv.NORM_HAMMING, crossCheck=True)
+        self.pose_estimator = PoseEstimator(initial_pose=Pose.from_carla(self.get_initial_position()))
 
 
 
@@ -49,10 +69,10 @@ class AutoAgent(AutonomousAgent):
                 'camera_active': False, 'light_intensity': 0, 'width': '1280', 'height': '720'
             },
             carla.SensorPosition.FrontLeft: {
-                'camera_active': True, 'light_intensity': 1.0, 'width': '1280', 'height': '720'
+                'camera_active': True, 'light_intensity': 0.5, 'width': '1280', 'height': '720'
             },
             carla.SensorPosition.FrontRight: {
-                'camera_active': True, 'light_intensity': 1.0, 'width': '1280', 'height': '720'
+                'camera_active': True, 'light_intensity': 0.5, 'width': '1280', 'height': '720'
             },
             carla.SensorPosition.Left: {
                 'camera_active': False, 'light_intensity': 0, 'width': '1280', 'height': '720'
@@ -82,72 +102,49 @@ class AutoAgent(AutonomousAgent):
             self.set_front_arm_angle(math.radians(90))
             self.set_back_arm_angle(math.radians(90))
 
-        if (self.frame == 25):
-            print("Starting to run")
-            self.set_camera_state(carla.SensorPosition.FrontLeft, True)
-            self.set_camera_state(carla.SensorPosition.FrontRight, True)
-        if (self.frame <= 25):
-            return carla.VehicleVelocityControl()
+        # if (self.frame == 25):
+        #     print("Starting to run")
+        #     self.set_camera_state(carla.SensorPosition.FrontLeft, True)
+        #     self.set_camera_state(carla.SensorPosition.FrontRight, True)
+        # if (self.frame <= 25):
+        #     return carla.VehicleVelocityControl()
 
+        # img_l: np.ndarray = input_data["Grayscale"][carla.SensorPosition.FrontLeft]
+        # img_r: np.ndarray  = input_data["Grayscale"][carla.SensorPosition.FrontRight]
+        #
+        # if (img_l is None or img_r is None):
+        #     return carla.VehicleVelocityControl()
 
+        # cv.imshow("Left Camera", img_l)
+        # cv.imshow("Right Camera", img_r)
 
+        self.pose_estimator.step(timestamp=self.get_mission_time(), imu_data=self.get_imu_data())
+        print("estimated pose: " + str(self.pose_estimator.get_fused_pose()) + " actual: " + str(Pose.from_carla(self.get_transform())))
+        print("velocity: " + str(self.pose_estimator.get_1d_velocity()) + " / " + str(self.pose_estimator.get_velocity()))
 
-        imgL = input_data["Grayscale"][carla.SensorPosition.FrontLeft]
-        imgR = input_data["Grayscale"][carla.SensorPosition.FrontRight]
+        print("frame: ", self.frame)
 
-        if (imgL is None or imgR is None):
-            return carla.VehicleVelocityControl()
-
-        cv.imshow("Left Camera", imgL)
-        cv.imshow("Right Camera", imgR)
-        print("frame: ", self.frame, "current_v: ", self.current_v, "current_w: ", self.current_w, "")
-
-
+        for camera in cameras:
+            self.get_camera_position(camera)
 
 
 
         # Calculating disparith using the StereoSGBM algorithm
-        disp = self.stereo.compute(imgL, imgR).astype(np.float32)
-        disp = cv.normalize(disp, 0, 255, cv.NORM_MINMAX)
-        cv.imshow("Disparity Map", disp)
-        cv.waitKey(1)
-        return carla.VehicleVelocityControl()
+        # disp = self.stereo.compute(imgL, imgR).astype(np.float32)
+        # disp = cv.normalize(disp, 0, 255, cv.NORM_MINMAX)
+
+        # keypoints, descriptors = self.orb.detectAndCompute(img_l, None)
+        #
+        # if (self.prev_keypoints is not None and self.prev_descriptors is not None):
+        #     matches = self.bf.match(self.prev_descriptors, descriptors)
+        #     matches = sorted(matches, key=lambda x: x.distance)
+        #
+        # self.prev_keypoints = keypoints
+        # self.prev_descriptors = descriptors
+        # cv.waitKey(1)
+        return super().run_step(input_data)
 
 
     def finalize(self):
+        super().finalize()
         cv.destroyAllWindows()
-
-    def on_press(self, key):
-
-        """ This is the callback executed when a key is pressed. If the key pressed is either the up or down arrow, this method will add
-        or subtract target linear velocity. If the key pressed is either the left or right arrow, this method will set a target angular
-        velocity of 0.6 radians per second. """
-
-        if key == keyboard.Key.up:
-            self.current_v += 0.1
-            self.current_v = np.clip(self.current_v, 0, 0.3)
-        if key == keyboard.Key.down:
-            self.current_v -= 0.1
-            self.current_v = np.clip(self.current_v, -0.3, 0)
-        if key == keyboard.Key.left:
-            self.current_w = 0.6
-        if key == keyboard.Key.right:
-            self.current_w = -0.6
-
-    def on_release(self, key):
-
-        """ This method sets the angular or linear velocity to zero when the arrow key is released. Stopping the robot. """
-
-        if key == keyboard.Key.up:
-            self.current_v = 0
-        if key == keyboard.Key.down:
-            self.current_v = 0
-        if key == keyboard.Key.left:
-            self.current_w = 0
-        if key == keyboard.Key.right:
-            self.current_w = 0
-
-        """ Press escape to end the mission. """
-        if key == keyboard.Key.esc:
-            self.mission_complete()
-            cv.destroyAllWindows()
