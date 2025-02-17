@@ -39,23 +39,21 @@ class AutoAgent(HumanAgent, AutonomousAgent):
         self.frame = -1
         print("Setup AutoAgent")
 
-        # self.stereo = cv.StereoBM.create(numDisparities=320, blockSize=15)
-        # self.stereo.setMinDisparity(0)
-        # self.stereo.setNumDisparities(320)
-        # # self.stereo.setMinDisparity(64)
-        # self.stereo.setUniquenessRatio(10)
-        # self.stereo.setDisp12MaxDiff(0)
-        # self.stereo.setSpeckleWindowSize(50)
-        # self.stereo.setSpeckleRange(1)
-        # self.stereo.setTextureThreshold(40)
+        self.stereo = cv.StereoBM.create(numDisparities=384, blockSize=15)
+        self.stereo.setMinDisparity(0)
+        self.stereo.setNumDisparities(384)
+        self.stereo.setUniquenessRatio(10)
+        self.stereo.setDisp12MaxDiff(0)
+        self.stereo.setSpeckleWindowSize(50)
+        self.stereo.setSpeckleRange(1)
+        self.stereo.setTextureThreshold(40)
 
         self.orb = cv.ORB()
         self.bf = cv.BFMatcher(cv.NORM_HAMMING, crossCheck=True)
         self.pose_estimator = PoseEstimator(initial_pose=Pose.from_carla(self.get_initial_position()))
 
-    #no fudicials to maximize points
     def use_fiducials(self):
-        return False
+        return True
 
 
     def sensors(self):
@@ -95,10 +93,10 @@ class AutoAgent(HumanAgent, AutonomousAgent):
 
     def run_step(self, input_data):
 
-        if (self.frame == 0 and self.time_step == 0):
+        if (self.frame == 0 and self.frame == 0):
             print("Moving drums up")
-            self.set_camera_state(carla.SensorPosition.FrontLeft, False)
-            self.set_camera_state(carla.SensorPosition.FrontRight, False)
+            # self.set_camera_state(carla.SensorPosition.FrontLeft, False)
+            # self.set_camera_state(carla.SensorPosition.FrontRight, False)
             self.set_front_arm_angle(math.radians(90))
             self.set_back_arm_angle(math.radians(90))
 
@@ -109,15 +107,21 @@ class AutoAgent(HumanAgent, AutonomousAgent):
         # if (self.frame <= 25):
         #     return carla.VehicleVelocityControl()
 
-        # img_l: np.ndarray = input_data["Grayscale"][carla.SensorPosition.FrontLeft]
-        # img_r: np.ndarray  = input_data["Grayscale"][carla.SensorPosition.FrontRight]
+        img_l: np.ndarray = input_data["Grayscale"][carla.SensorPosition.FrontLeft]
+        img_r: np.ndarray  = input_data["Grayscale"][carla.SensorPosition.FrontRight]
         #
-        # if (img_l is None or img_r is None):
-        #     return carla.VehicleVelocityControl()
+        if (img_l is not None or img_r is not None):
+            cv.imshow("Left Camera", img_l)
+            cv.imshow("Right Camera", img_r)
+
+            disp = self.stereo.compute(img_l, img_r).astype(np.float32)
+            disp = cv.normalize(disp, 0, 255, cv.NORM_MINMAX)
+
+
+            cv.imshow("Displacement", disp)
+
         control = carla.VehicleVelocityControl(0.2, 0)
 
-        # cv.imshow("Left Camera", img_l)
-        # cv.imshow("Right Camera", img_r)
 
         self.pose_estimator.step(timestamp=self.get_mission_time(), imu_data=self.get_imu_data())
         print("estimated pose: " + str(self.pose_estimator.get_fused_pose()) + " actual: " + str(Pose.from_carla(self.get_transform())))
@@ -125,8 +129,8 @@ class AutoAgent(HumanAgent, AutonomousAgent):
 
         print("frame: ", self.frame)
 
-        for camera in cameras:
-            self.get_camera_position(camera)
+        # for camera in cameras:
+        #     self.get_camera_position(camera)
 
 
 
@@ -142,17 +146,16 @@ class AutoAgent(HumanAgent, AutonomousAgent):
         #
         # self.prev_keypoints = keypoints
         # self.prev_descriptors = descriptors
-        # cv.waitKey(1)
+        cv.waitKey(1)
 
         #iterate through the frames and time steps
         self.frame += 1
-        self.time_step += 1
 
 
-        return control
+        return super().run_step(input_data)
 
-    def return_to_module(self):
-        if (self.time_step == 0):
+    def return_to_module(self, input_data):
+        if (self.frame == 0):
             # find location of lunar module and travel to it
             #probably done by flipping through camera until found
             # utilize init position
