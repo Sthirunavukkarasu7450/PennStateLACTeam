@@ -4,6 +4,7 @@ import math
 import carla
 import cv2 as cv
 import numpy as np
+import apriltag
 
 from geometry.pose import Pose
 from leaderboard.autoagents.human_agent import HumanAgent
@@ -170,7 +171,18 @@ class AutoAgent(HumanAgent, AutonomousAgent):
             # no init position therefore must use predicted location
             # rotate rover certain degrees
             # move foward towards lunar rover
-            return super().run_step(input_data)
+            return carla.VehicleVelocityControl()
+        return super().run_step(input_data)
+    
+    def april_detection():
+        image = cv.imread('image path insert here')
+        gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+
+        options = apriltag.DetectorOptions(families="tag36h11")
+        detector = apriltag.Detector(options)
+        results = detector.detect(gray)
+        return len(results)
+
 
 
 
